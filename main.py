@@ -72,18 +72,28 @@ class AgentsScreen(Screen):
         super(AgentsScreen, self).__init__(**kwargs)
 
 
-
         self.grid = GridLayout(cols=1)
 
+        self.scroll_view = ScrollView(size_hint=(1, 0.75), pos=(0, 0))
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, .5))
+        self.back_button = Button(text="Вернуться", size_hint=(1, .10), pos=(0, 0))
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
+        self.grid.add_widget(Label(text="Наши агенты", size_hint=(1, .10), pos=(0, 0),  font_size=30))
 
-        self.grid.add_widget(Label(text="Здесь будет список агентов", size_hint=(1, 3.5), max_lines=10, halign="center", valign="top", text_size=(200, 500)))
+        #Здесь будет сетка для объектов
+        self.agents_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=50)
+        self.agents_grid.bind(minimum_height=self.agents_grid.setter("height"))
 
+        for i in range(20):
+            self.agents_grid.add_widget(Label(text=f"Краткая информация об агенте с id: {i}", size_hint=(0.9, .10)))
+            self.agents_grid.add_widget(Button(text="Инфо", size_hint=(0.1, .10)))
+
+        self.scroll_view.add_widget(self.agents_grid)
+        self.grid.add_widget(self.scroll_view)
         self.add_widget(self.grid)
+
 
 
     def back(self, *args):
@@ -98,11 +108,12 @@ class ClientsScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, .5))
+        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Здесь будет список клиентов", size_hint=(1, 3.5), max_lines=10, halign="center", valign="top", text_size=(200, 500)))
+        # Здесь будет сетка для объектов
+        self.grid.add_widget(Label(text="Здесь будет список клиентов", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
 
         self.add_widget(self.grid)
 
@@ -122,11 +133,11 @@ class AgentScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, .5))
+        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Здесь будет информация по конкретному агенту", size_hint=(1, 3.5), max_lines=10, halign="center", valign="top", text_size=(200, 500)))
+        self.grid.add_widget(Label(text="Здесь будет информация по конкретному агенту", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
 
         self.add_widget(self.grid)
 
@@ -144,11 +155,11 @@ class ClientScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, .5))
+        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Здесь будет информация по конкретному клиенту", size_hint=(1, 3.5), max_lines=10, halign="center", valign="top", text_size=(200, 500)))
+        self.grid.add_widget(Label(text="Здесь будет информация по конкретному клиенту", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
 
         self.add_widget(self.grid)
 
@@ -164,11 +175,11 @@ class EventsScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, .5))
+        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Здесь будет информация по всем событиям", size_hint=(1, 3.5), max_lines=10, halign="center", valign="top", text_size=(200, 500)))
+        self.grid.add_widget(Label(text="Здесь будет информация по всем событиям", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
 
         self.add_widget(self.grid)
 
