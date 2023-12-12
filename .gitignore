@@ -1,0 +1,11 @@
+.idea
+.git
+.gitattributes
+.env
+/venv
+/trash
+*/__pycache__
+/__pycache__
+tests.py
+ToDoApp/db.sqlite3
+shabls.py
