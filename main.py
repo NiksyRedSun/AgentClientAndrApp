@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.core.text import LabelBase
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.config import Config
@@ -17,6 +18,10 @@ Config.set("graphics", "width", "300")
 Config.set("graphics", "height", "585")
 
 
+LabelBase.register(name='Lucida Console',
+                      fn_regular='C:\\repos\\AgentClientAndrApp\\lucida-console.ttf')
+
+
 
 class ScreenManagement(ScreenManager):
     def __init__(self, **kwargs):
@@ -30,12 +35,18 @@ class MenuScreen(Screen):
 
 
         self.grid = GridLayout(cols=1)
-        self.grid.add_widget(Label(text="Добро пожаловать в наше приложение про клиентов и агентов", size_hint=(1, 3.5), max_lines=10, text_size=(200, None), halign="center"))
+        self.grid.add_widget(Label(text="[color=03A062]Добро пожаловать в наше приложение про клиентов и агентов[/color]",
+                                   size_hint=(1, 3.5), max_lines=10, text_size=(Window.width*0.8, None), halign="center",
+                                   font_size=28, markup=True, font_name="Lucida Console"))
 
-        self.agents_button = Button(text="Агенты", font_size=32)
-        self.clients_button = Button(text="Клиенты", font_size=32)
-        self.events_button = Button(text="События", font_size=32)
-        self.exit_button = Button(text="Выход", font_size=32)
+        self.agents_button = Button(text="[color=black]Агенты[/color]", font_size=32, font_name="Lucida Console",
+                                    background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="")
+        self.clients_button = Button(text="[color=black]Клиенты[/color]", font_size=32, font_name="Lucida Console",
+                                     background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="")
+        self.events_button = Button(text="[color=black]События[/color]", font_size=32, font_name="Lucida Console",
+                                    background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="")
+        self.exit_button = Button(text="[color=black]Выход[/color]", font_size=32, font_name="Lucida Console",
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="")
 
         self.agents_button.bind(on_press=self.screen_transition_to_agents)
         self.clients_button.bind(on_press=self.screen_transition_to_clients)
@@ -76,19 +87,25 @@ class AgentsScreen(Screen):
 
         self.scroll_view = ScrollView(size_hint=(1, 0.75), pos=(0, 0))
 
-        self.back_button = Button(text="Вернуться", size_hint=(1, .10), pos=(0, 0))
+        self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10), font_size=24, font_name="Lucida Console",
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="")
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Наши агенты", size_hint=(1, .10), pos=(0, 0),  font_size=30))
+        self.grid.add_widget(Label(text="[color=03A062]Наши агенты[/color]", size_hint=(1, .10), max_lines=10,
+                                   text_size=(Window.width*0.8, None), halign="center",
+                                   font_size=28, markup=True, font_name="Lucida Console"))
 
         #Здесь будет сетка для объектов
         self.agents_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=50)
         self.agents_grid.bind(minimum_height=self.agents_grid.setter("height"))
 
         for i in range(20):
-            self.agents_grid.add_widget(Label(text=f"Краткая информация об агенте с id: {i}", size_hint=(0.9, .10)))
-            self.agents_grid.add_widget(Button(text="Инфо", size_hint=(0.1, .10)))
+            self.agents_grid.add_widget(Label(text=f"[color=03A062]Краткая информация об агенте с id: {i}[/color]", size_hint=(0.85, 1),
+                                              text_size=(Window.width*0.75, None), halign="left", markup=True, font_name="Lucida Console"))
+
+            self.agents_grid.add_widget(Button(text="[color=black]Инфо[/color]", size_hint=(0.15, 1), font_name="Lucida Console",
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal=""))
 
         self.scroll_view.add_widget(self.agents_grid)
         self.grid.add_widget(self.scroll_view)
@@ -108,13 +125,32 @@ class ClientsScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
+        self.scroll_view = ScrollView(size_hint=(1, 0.75), pos=(0, 0))
+
+        self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10), font_size=24,
+                                  font_name="Lucida Console", background_color=(3/255, 168/255, 98/255, 0.8),
+                                  markup=True, background_normal="")
+
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        # Здесь будет сетка для объектов
-        self.grid.add_widget(Label(text="Здесь будет список клиентов", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
+        self.grid.add_widget(Label(text="[color=03A062]Наши клиенты[/color]", size_hint=(1, .10), max_lines=10,
+                                   text_size=(Window.width*0.8, None), halign="center",
+                                   font_size=28, markup=True, font_name="Lucida Console"))
 
+        #Здесь будет сетка для объектов
+        self.clients_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=50)
+        self.clients_grid.bind(minimum_height=self.clients_grid.setter("height"))
+
+        for i in range(20):
+            self.clients_grid.add_widget(Label(text=f"[color=03A062]Краткая информация о клиенте с id: {i}[/color]", size_hint=(0.85, 1),
+                      text_size=(Window.width * 0.75, None), halign="left", markup=True, font_name="Lucida Console"))
+
+            self.clients_grid.add_widget(Button(text="[color=black]Контракт[/color]", size_hint=(0.15, 1), font_name="Lucida Console",
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal=""))
+
+        self.scroll_view.add_widget(self.clients_grid)
+        self.grid.add_widget(self.scroll_view)
         self.add_widget(self.grid)
 
 
@@ -129,15 +165,16 @@ class AgentScreen(Screen):
         super(AgentScreen, self).__init__(**kwargs)
 
 
-
-
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
+        self.back_button = self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10), font_size=24,
+                                                     font_name="Lucida Console", background_color=(3/255, 168/255, 98/255, 0.8),
+                                                     markup=True, background_normal="")
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Здесь будет информация по конкретному агенту", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
+        self.grid.add_widget(Label(text="Здесь будет информация по конкретному агенту", size_hint=(1, 1), max_lines=10,
+                                   halign="center", valign="top", text_size=(200, self.height*5)))
 
         self.add_widget(self.grid)
 
@@ -155,11 +192,14 @@ class ClientScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
+        self.back_button = self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10),
+                                                     font_size=24, font_name="Lucida Console", background_color=(3/255, 168/255, 98/255, 0.8),
+                                                     markup=True, background_normal="")
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Здесь будет информация по конкретному клиенту", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
+        self.grid.add_widget(Label(text="Здесь будет информация по конкретному клиенту", size_hint=(1, 1),
+                                   max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
 
         self.add_widget(self.grid)
 
@@ -175,12 +215,31 @@ class EventsScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = Button(text="Вернуться", font_size=32, size_hint=(1, 0.15))
+        self.scroll_view = ScrollView(size_hint=(1, 0.75), pos=(0, 0))
+
+        self.back_button = self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10),
+                                                     font_size=24, font_name="Lucida Console", background_color=(3/255, 168/255, 98/255, 0.8),
+                                                     markup=True, background_normal="")
         self.back_button.bind(on_press=self.back)
         self.grid.add_widget(self.back_button)
 
-        self.grid.add_widget(Label(text="Здесь будет информация по всем событиям", size_hint=(1, 1), max_lines=10, halign="center", valign="top", text_size=(200, self.height*5)))
+        self.grid.add_widget(Label(text="[color=03A062]События[/color]", size_hint=(1, .10), max_lines=10,
+                                   text_size=(Window.width*0.8, None), halign="center",
+                                   font_size=28, markup=True, font_name="Lucida Console"))
 
+        # Здесь будет сетка для объектов
+        self.events_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=50)
+        self.events_grid.bind(minimum_height=self.events_grid.setter("height"))
+
+        for i in range(20):
+            self.events_grid.add_widget(Label(text=f"[color=03A062]Краткая информация о событии с id: {i}[/color]", size_hint=(0.85, 1),
+                      text_size=(Window.width * 0.75, None), halign="left", markup=True, font_name="Lucida Console"))
+
+            self.events_grid.add_widget(Button(text="[color=black]Отчет[/color]", size_hint=(0.15, 1), font_name="Lucida Console",
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal=""))
+
+        self.scroll_view.add_widget(self.events_grid)
+        self.grid.add_widget(self.scroll_view)
         self.add_widget(self.grid)
 
 
