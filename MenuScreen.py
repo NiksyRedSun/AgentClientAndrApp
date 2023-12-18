@@ -16,8 +16,8 @@ class MenuScreen(Screen):
 
         self.grid = GridLayout(cols=1)
         self.grid.add_widget(Label(text="[color=03A062]Добро пожаловать в наше приложение про клиентов и агентов[/color]",
-                                   size_hint=(1, 3.5), max_lines=10, text_size=(Window.width*0.8, None), halign="center",
-                                   font_size=28, markup=True, font_name="Lucida Console"))
+                                   size_hint=(1, 3.5), max_lines=10, text_size=(Window.width*0.3, None), halign="center",
+                                   font_size=22, markup=True, font_name="Lucida Console"))
 
         self.agents_button = Button(text="[color=black]Агенты[/color]", font_size=32, font_name="Lucida Console",
                                     background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="")

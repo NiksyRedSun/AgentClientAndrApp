@@ -21,18 +21,21 @@ class AgentScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10), font_size=24,
-                                                     font_name="Lucida Console", background_color=(3/255, 168/255, 98/255, 0.8),
-                                                     markup=True, background_normal="")
-        self.back_button.bind(on_press=self.back)
-        self.grid.add_widget(self.back_button)
+        self.grid.add_widget(Button(text="[color=black]Вернуться[/color]", size_hint=(1, .05), font_size=24, font_name="Lucida Console",
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", on_press=self.back))
 
-        self.grid.add_widget(Label(text="Здесь будет информация по конкретному агенту", size_hint=(1, 1), max_lines=10,
-                                   halign="center", valign="top", text_size=(200, self.height*5)))
+
+        self.grid.add_widget(Label(text="[color=03A062]Информация об агенте с позывным ""[/color]", size_hint=(1, .2), max_lines=2,
+                                   text_size=(Window.width * 0.4, Window.height * 0.30), halign="center", valign="top",
+                                   font_size=36, markup=True, font_name="Lucida Console", ))
+
+        self.grid.add_widget(Label(text="[color=03A062]Здесь будет непосредственно информация[/color]", size_hint=(1, .2), max_lines=2,
+                                   text_size=(Window.width * 0.4, Window.height * 0.75), halign="center", valign="top",
+                                   font_size=28, markup=True, font_name="Lucida Console", ))
 
         self.add_widget(self.grid)
 
 
     def back(self, *args):
-        pass
+        self.manager.current = "AgentsScreen"
 

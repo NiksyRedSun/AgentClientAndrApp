@@ -21,11 +21,9 @@ class ClientScreen(Screen):
 
         self.grid = GridLayout(cols=1)
 
-        self.back_button = self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10),
+        self.grid.add_widget(Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10),
                                                      font_size=24, font_name="Lucida Console", background_color=(3/255, 168/255, 98/255, 0.8),
-                                                     markup=True, background_normal="")
-        self.back_button.bind(on_press=self.back)
-        self.grid.add_widget(self.back_button)
+                                                     markup=True, background_normal="", on_press=self.back))
 
 
 

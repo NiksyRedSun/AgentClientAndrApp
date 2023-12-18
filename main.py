@@ -18,10 +18,10 @@ from AgentScreen import AgentScreen
 from ClientScreen import ClientScreen
 from ClientsScreen import ClientsScreen
 from EventsScreen import EventsScreen
+from kivy.core.window import Window
 
-Config.set("graphics", "resizable", "0")
-Config.set("graphics", "width", "300")
-Config.set("graphics", "height", "585")
+Window.size = (300, 585)
+
 
 
 LabelBase.register(name='Lucida Console',
@@ -39,6 +39,8 @@ class ScreenManagement(ScreenManager):
 
 class Application(App):
     def build(self):
+        self.config.width=300
+        self.config.height=300
         sm = ScreenManagement(transition=SlideTransition())
 
         sm.add_widget(MenuScreen(name="MenuScreen"))

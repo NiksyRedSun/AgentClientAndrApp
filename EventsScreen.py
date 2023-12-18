@@ -24,36 +24,21 @@ class EventsScreen(Screen):
 
         self.scroll_view = ScrollView(size_hint=(1, 0.75), pos=(0, 0))
 
-        self.back_button = self.back_button = Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10),
+
+        self.grid.add_widget(Button(text="[color=black]Вернуться[/color]", size_hint=(1, .10),
                                                      font_size=24, font_name="Lucida Console", background_color=(3/255, 168/255, 98/255, 0.8),
-                                                     markup=True, background_normal="")
-        self.back_button.bind(on_press=self.back)
-        self.grid.add_widget(self.back_button)
+                                                     markup=True, background_normal="", on_press=self.back))
+
 
         self.grid.add_widget(Label(text="[color=03A062]События[/color]", size_hint=(1, .10), max_lines=10,
                                    text_size=(Window.width*0.8, None), halign="center",
                                    font_size=28, markup=True, font_name="Lucida Console"))
 
         # Здесь будет сетка для объектов
-        self.events_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=50)
+        self.events_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=70)
         self.events_grid.bind(minimum_height=self.events_grid.setter("height"))
 
-        self.events = get_all_events()
-
-        for event in self.events:
-            if "client" in event:
-                self.events_grid.add_widget(Label(text=f"[color=03A062]Покушение на клиента, статус: {event['status']}\n"
-                                                       f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]",
-                                                  size_hint=(0.85, 1), text_size=(Window.width * 0.75, None), halign="left",
-                                                  markup=True, font_name="Lucida Console"))
-            else:
-                self.events_grid.add_widget(Label(text=f"[color=03A062]Уборка мусора, статус: {event['status']}\n"
-                                                       f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]",
-                                                  size_hint=(0.85, 1), text_size=(Window.width * 0.75, None), halign="left",
-                                                  markup=True, font_name="Lucida Console"))
-
-            self.events_grid.add_widget(Button(text="[color=black]Отчет[/color]", size_hint=(0.15, 1), font_name="Lucida Console",
-                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal=""))
+        self.new_event_list()
 
         self.scroll_view.add_widget(self.events_grid)
         self.grid.add_widget(self.scroll_view)
@@ -66,6 +51,10 @@ class EventsScreen(Screen):
 
 
     def on_pre_enter(self, *args):
+        self.new_event_list()
+
+
+    def new_event_list(self):
         self.events_grid.clear_widgets()
 
         self.events = get_all_events()
@@ -75,13 +64,13 @@ class EventsScreen(Screen):
             if "client" in event:
                 self.events_grid.add_widget(Label(text=f"[color=03A062]Покушение на клиента, статус: {event['status']}\n"
                                                        f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]",
-                                                  size_hint=(0.85, 1), text_size=(Window.width * 0.75, None), halign="left",
+                                                  size_hint=(0.80, 1), text_size=(Window.width * 0.75, None), halign="left",
                                                   markup=True, font_name="Lucida Console"))
             else:
                 self.events_grid.add_widget(Label(text=f"[color=03A062]Уборка мусора, статус: {event['status']}\n"
                                                        f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]",
-                                                  size_hint=(0.85, 1), text_size=(Window.width * 0.75, None), halign="left",
+                                                  size_hint=(0.80, 1), text_size=(Window.width * 0.75, None), halign="left",
                                                   markup=True, font_name="Lucida Console"))
 
-            self.events_grid.add_widget(Button(text="[color=black]Отчет[/color]", size_hint=(0.15, 1), font_name="Lucida Console",
-                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal=""))
+            self.events_grid.add_widget(Button(text="[color=black]Отчет[/color]", size_hint=(0.20, 1), font_name="Lucida Console",
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", font_size=14))
