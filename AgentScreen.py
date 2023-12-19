@@ -25,17 +25,25 @@ class AgentScreen(Screen):
                                   background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", on_press=self.back))
 
 
-        self.grid.add_widget(Label(text="[color=03A062]Информация об агенте с позывным ""[/color]", size_hint=(1, .2), max_lines=2,
-                                   text_size=(Window.width * 0.4, Window.height * 0.30), halign="center", valign="top",
-                                   font_size=36, markup=True, font_name="Lucida Console", ))
 
-        self.grid.add_widget(Label(text="[color=03A062]Здесь будет непосредственно информация[/color]", size_hint=(1, .2), max_lines=2,
-                                   text_size=(Window.width * 0.4, Window.height * 0.75), halign="center", valign="top",
-                                   font_size=28, markup=True, font_name="Lucida Console", ))
+        self.nickname_label = Label(text="[color=03A062]Информация об агенте с позывным ""[/color]", size_hint=(1, .2), max_lines=2,
+                                   text_size=(Window.width * 0.3, Window.height * 0.40), halign="center", valign="top",
+                                   font_size=28, markup=True, font_name="Lucida Console")
+
+        self.grid.add_widget(self.nickname_label)
+
+        self.info_label = Label(text="[color=03A062]Здесь будет непосредственно информация[/color]", size_hint=(1, .2), max_lines=2,
+                                   text_size=(Window.width * 0.35, Window.height * 0.95), halign="left", valign="top",
+                                   font_size=18, markup=True, font_name="Lucida Console")
+
+        self.grid.add_widget(self.info_label)
 
         self.add_widget(self.grid)
 
 
     def back(self, *args):
         self.manager.current = "AgentsScreen"
+
+
+
 

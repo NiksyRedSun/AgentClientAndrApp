@@ -10,8 +10,17 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition, WipeTransition, SwapTransition, CardTransition, SlideTransition, ShaderTransition
-from reqs import get_all_active_agents, get_all_clients, get_all_events
+from reqs import get_all_active_agents, get_all_clients, get_all_events, get_agent, get_agent_contracts
 import datetime
+from functools import partial
+
+info_dict = {1: 'ножи, дубинки и скрытое огнестрельное оружие',
+    2: 'пистолеты, кастеты и компактные пистолеты-пулеметы',
+    3: 'полуавтоматические винтовки, топоры и дымовые гранаты',
+    4: 'снайперские винтовки, широкие клинки и метательные ножи',
+    5: 'штурмовые винтовки, бронебойные дротики и дробовики',
+    6: 'специальные винтовки с подавлением звука, ядовитые стрелы и технологически продвинутые маскировочные устройства'}
+
 
 
 
@@ -65,11 +74,25 @@ class AgentsScreen(Screen):
                                               text_size=(Window.width*0.75, None), halign="left", markup=True, font_name="Lucida Console"))
 
             self.agents_grid.add_widget(Button(text="[color=black]Инфо[/color]", size_hint=(0.20, 1), font_name="Lucida Console",
-                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", on_press=self.screen_transition_to_agent,
-                                               font_size=14))
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="",
+                                               on_press=partial(self.screen_transition_to_agent, agent["id"]), font_size=14))
 
 
 
     def screen_transition_to_agent(self, *args):
+        agent = get_agent(args[0])
+        kills = get_agent_contracts(args[0])
+
+        info = f"[color=03A062]{agent['first_name']} {agent['last_name']}\n" \
+                f"Возраст: {agent['age']}, статус: {int(agent['status'])},\n" \
+               f"опыт: {agent['exp']}, деньги: {agent['money']},\n\n" \
+               f"Уровень снаряжения:\n" \
+               f"{info_dict[agent['equipment_level']]}\n\n" \
+               f"Контрактов: {len(kills)}\n\n" \
+               f"Начало членства: {datetime.datetime.fromtimestamp(agent['start_membership'])}[/color]"
+
+
+        self.manager.get_screen("AgentScreen").nickname_label.text = f"[color=03A062]{agent['nickname']}[/color]"
+        self.manager.get_screen("AgentScreen").info_label.text = info
         self.manager.current = "AgentScreen"
 

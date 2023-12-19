@@ -28,4 +28,19 @@ def get_all_events():
 
 
 
+def get_agent(id):
+
+    r = requests.request("GET", url=f"http://127.0.0.1:8000/agents/agent/{id}")
+
+    return json.loads(r.text)
+
+
+def get_agent_contracts(id):
+
+    r = requests.request("GET", url=f"http://127.0.0.1:8000/agents/agentcontracts/{id}")
+
+    return json.loads(r.text)
+
+
+
 # print(get_all_events())
