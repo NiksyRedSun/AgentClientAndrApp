@@ -89,24 +89,28 @@ class EventsScreen(Screen):
             info = f"[color=03A062]Наш агент по кличке {agent['nickname']} блестяще выполнил свою работу.\n" \
                    f"{client['first_name']} {client['last_name']} - бесследно исчез.\n\n" \
                    f"Опыт за убийство: {client['exp']}\n" \
-                   f"Награда за убийство: {client['price']}[/color]"
+                   f"Награда за убийство: {client['price']}\n\n" \
+                   f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]"
 
         elif event['status'] == 2:
             info = f"[color=03A062]Наш агент по кличке {agent['nickname']} провалил всю операцию.\n" \
                    f"{client['first_name']} {client['last_name']} - ускользнул.\n\n" \
-                   f"Однако, агенту удалось сохранить свою личность в тайне, что позволяет ему остаться в круге единомышленников.[/color]"
+                   f"Однако, агенту удалось сохранить свою личность в тайне, что позволяет ему остаться в круге единомышленников.\n\n" \
+                   f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]"
 
         elif event['status'] == 3:
             info = f"[color=03A062]Наш агент по кличке {agent['nickname']} провалил всю операцию.\n" \
                    f"{client['first_name']} {client['last_name']} - ускользнул.\n\n" \
                    f"Агенту не удалось сохранить свою личность в тайне. Мы будем отрицать все контакты с ним.\n" \
-                   f"Кроме того, в скором времени, на агента будет открыта охота с целью замести следы[/color]"
+                   f"Кроме того, в скором времени, на агента будет открыта охота с целью замести следы.\n\n" \
+                   f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]"
 
         elif event['status'] == 4:
             info = f"[color=03A062]Наш агент по кличке {agent['nickname']} - мертв.\n" \
                    f"{client['first_name']} {client['last_name']} - ускользнул.\n\n" \
                    f"В ходе операции наш агент был раскрыт и убит.\n" \
-                   f"Мы будет отрицать всякие контакты с ним. Однако нам не придется тратить время, чтобы замести следы.[/color]"
+                   f"Мы будет отрицать всякие контакты с ним. Однако нам не придется тратить время, чтобы замести следы.\n\n" \
+                   f"Дата и время: {datetime.datetime.fromtimestamp(event['time'])}[/color]"
 
         self.manager.get_screen("EventScreen").info_label.text = info
         self.manager.current = "EventScreen"
