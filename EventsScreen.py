@@ -10,8 +10,9 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition, WipeTransition, SwapTransition, CardTransition, SlideTransition, ShaderTransition
-from reqs import get_all_active_agents, get_all_clients, get_all_events
+from reqs import get_all_active_agents, get_all_clients, get_all_events, attempt, get_agent, get_client, get_event
 import datetime
+from functools import partial
 
 
 
@@ -38,7 +39,7 @@ class EventsScreen(Screen):
         self.events_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=70)
         self.events_grid.bind(minimum_height=self.events_grid.setter("height"))
 
-        self.new_event_list()
+
 
         self.scroll_view.add_widget(self.events_grid)
         self.grid.add_widget(self.scroll_view)
@@ -73,4 +74,39 @@ class EventsScreen(Screen):
                                                   markup=True, font_name="Lucida Console"))
 
             self.events_grid.add_widget(Button(text="[color=black]Отчет[/color]", size_hint=(0.20, 1), font_name="Lucida Console",
-                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", font_size=14))
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="",
+                                               on_press=partial(self.screen_transition_to_event, event["id"]), font_size=14))
+
+
+
+    def screen_transition_to_event(self, *args):
+
+        event = get_event(args[0])
+        agent = get_agent(event['agent'])
+        client = get_client(event['client'])
+
+        if event['status'] == 1:
+            info = f"[color=03A062]Наш агент по кличке {agent['nickname']} блестяще выполнил свою работу.\n" \
+                   f"{client['first_name']} {client['last_name']} - бесследно исчез.\n\n" \
+                   f"Опыт за убийство: {client['exp']}\n" \
+                   f"Награда за убийство: {client['price']}[/color]"
+
+        elif event['status'] == 2:
+            info = f"[color=03A062]Наш агент по кличке {agent['nickname']} провалил всю операцию.\n" \
+                   f"{client['first_name']} {client['last_name']} - ускользнул.\n\n" \
+                   f"Однако, агенту удалось сохранить свою личность в тайне, что позволяет ему остаться в круге единомышленников.[/color]"
+
+        elif event['status'] == 3:
+            info = f"[color=03A062]Наш агент по кличке {agent['nickname']} провалил всю операцию.\n" \
+                   f"{client['first_name']} {client['last_name']} - ускользнул.\n\n" \
+                   f"Агенту не удалось сохранить свою личность в тайне. Мы будем отрицать все контакты с ним.\n" \
+                   f"Кроме того, в скором времени, на агента будет открыта охота с целью замести следы[/color]"
+
+        elif event['status'] == 4:
+            info = f"[color=03A062]Наш агент по кличке {agent['nickname']} - мертв.\n" \
+                   f"{client['first_name']} {client['last_name']} - ускользнул.\n\n" \
+                   f"В ходе операции наш агент был раскрыт и убит.\n" \
+                   f"Мы будет отрицать всякие контакты с ним. Однако нам не придется тратить время, чтобы замести следы.[/color]"
+
+        self.manager.get_screen("EventScreen").info_label.text = info
+        self.manager.current = "EventScreen"

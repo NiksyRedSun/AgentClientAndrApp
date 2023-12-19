@@ -18,7 +18,11 @@ from AgentScreen import AgentScreen
 from ClientScreen import ClientScreen
 from ClientsScreen import ClientsScreen
 from EventsScreen import EventsScreen
+from ContractAgentsScreen import ContractAgentsScreen
+from ContractScreen import ContractScreen
 from kivy.core.window import Window
+from ResultScreen import ResultScreen
+from EventScreen import EventScreen
 
 Window.size = (300, 585)
 
@@ -36,7 +40,6 @@ class ScreenManagement(ScreenManager):
 
 
 
-
 class Application(App):
     def build(self):
         self.config.width=300
@@ -49,12 +52,12 @@ class Application(App):
         sm.add_widget(ClientsScreen(name="ClientsScreen"))
         sm.add_widget(ClientScreen(name="ClientScreen"))
         sm.add_widget(EventsScreen(name="EventsScreen"))
-        print(sm.screens)
+        sm.add_widget(EventScreen(name="EventScreen"))
+        sm.add_widget(ContractAgentsScreen(name="ContractAgentsScreen"))
+        sm.add_widget(ContractScreen(name="ContractScreen"))
+        sm.add_widget(ResultScreen(name="ResultScreen"))
 
         return sm
-
-
-
 
 
 if __name__ == "__main__":

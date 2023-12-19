@@ -10,10 +10,19 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition, WipeTransition, SwapTransition, CardTransition, SlideTransition, ShaderTransition
-from reqs import get_all_active_agents, get_all_clients, get_all_events
+from reqs import get_all_active_agents, get_all_clients, get_all_events, get_client
 import datetime
+from functools import partial
 
 
+
+info_dict = {1: 'цель с минимальной охраной, неосведомлена о возможной опасности',
+2: 'цель, которая может иметь небольшую охрану, но её легко обойти',
+3: 'цель, защищена опытной охраной и базовыми техническими средствами',
+4:'цель с высокой степенью защиты, включая физическую, электронную и техническую безопасность',
+5: 'цель, охраняемая профессиональными телохранителями, современными системами безопасности и тщательной разведкой',
+6: 'высокопоставленная личность, государственного значения, с максимальной защитой, '
+   'включая военные силы, секретные службы и высокотехнологичные системы безопасности'}
 
 
 
@@ -39,7 +48,7 @@ class ClientsScreen(Screen):
         self.clients_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=70)
         self.clients_grid.bind(minimum_height=self.clients_grid.setter("height"))
 
-        self.new_clients_list()
+
 
         self.scroll_view.add_widget(self.clients_grid)
         self.grid.add_widget(self.scroll_view)
@@ -67,4 +76,20 @@ class ClientsScreen(Screen):
                                                markup=True, font_name="Lucida Console"))
 
             self.clients_grid.add_widget(Button(text="[color=black]Контракт[/color]", size_hint=(0.20, 1), font_name="Lucida Console",
-                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", font_size=12))
+                                  background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", font_size=12,
+                                                on_press=partial(self.screen_transition_to_client, client["id"])))
+
+
+    def screen_transition_to_client(self, *args):
+        client = get_client(args[0])
+
+        info = f"[color=03A062]Имя: {client['first_name']} {client['last_name']}\n" \
+               f"Возраст: {client['age']},\n" \
+               f"опыт за убийство: {client['exp']}, " \
+               f"награда за убийство: {client['price']},\n\n" \
+               f"Уровень защиты:\n" \
+               f"{info_dict[client['security_level']]}[/color]"
+
+        self.manager.get_screen("ContractScreen").client = args[0]
+        self.manager.get_screen("ClientScreen").info_label.text = info
+        self.manager.current = "ClientScreen"

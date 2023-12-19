@@ -10,24 +10,13 @@ from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition, WipeTransition, SwapTransition, CardTransition, SlideTransition, ShaderTransition
-from reqs import get_all_active_agents, get_all_clients, get_all_events, get_agent, get_agent_contracts
+from reqs import get_all_active_agents, get_all_clients, get_all_events, get_agent, get_agent_contracts, get_client
 import datetime
 from functools import partial
 
-info_dict = {1: 'ножи, дубинки и скрытое огнестрельное оружие',
-    2: 'пистолеты, кастеты и компактные пистолеты-пулеметы',
-    3: 'полуавтоматические винтовки, топоры и дымовые гранаты',
-    4: 'снайперские винтовки, широкие клинки и метательные ножи',
-    5: 'штурмовые винтовки, бронебойные дротики и дробовики',
-    6: 'специальные винтовки с подавлением звука, ядовитые стрелы и технологически продвинутые маскировочные устройства'}
-
-
-
-
-
-class AgentsScreen(Screen):
+class ContractAgentsScreen(Screen):
     def __init__(self, **kwargs):
-        super(AgentsScreen, self).__init__(**kwargs)
+        super(ContractAgentsScreen, self).__init__(**kwargs)
 
 
         self.grid = GridLayout(cols=1)
@@ -39,9 +28,9 @@ class AgentsScreen(Screen):
                                   background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="", on_press=self.back))
 
 
-        self.grid.add_widget(Label(text="[color=03A062]Наши агенты[/color]", size_hint=(1, .10), max_lines=10,
+        self.grid.add_widget(Label(text="[color=03A062]Исполнитель контракта[/color]", size_hint=(1, .10), max_lines=10,
                                    text_size=(Window.width*0.8, None), halign="center",
-                                   font_size=28, markup=True, font_name="Lucida Console"))
+                                   font_size=24, markup=True, font_name="Lucida Console"))
 
         #Здесь будет сетка для объектов
         self.agents_grid = GridLayout(cols=2, size_hint=(1, None), row_force_default=True, row_default_height=70)
@@ -56,7 +45,7 @@ class AgentsScreen(Screen):
 
 
     def back(self, *args):
-        self.manager.current = "MenuScreen"
+        self.manager.current = "ClientScreen"
 
 
     def on_pre_enter(self, *args):
@@ -73,26 +62,31 @@ class AgentsScreen(Screen):
                                                    f"Уровень снаряжения: {agent['equipment_level']}, опыт: {agent['exp']}[/color]", size_hint=(0.80, 1),
                                               text_size=(Window.width*0.75, None), halign="left", markup=True, font_name="Lucida Console"))
 
-            self.agents_grid.add_widget(Button(text="[color=black]Инфо[/color]", size_hint=(0.20, 1), font_name="Lucida Console",
+            self.agents_grid.add_widget(Button(text="[color=black]Контракт[/color]", size_hint=(0.20, 1), font_name="Lucida Console",
                                   background_color=(3/255, 168/255, 98/255, 0.8), markup=True, background_normal="",
-                                               on_press=partial(self.screen_transition_to_agent, agent["id"]), font_size=14))
+                                on_press=partial(self.screen_transition_to_contract, agent["id"]), font_size=12))
 
 
-
-    def screen_transition_to_agent(self, *args):
+    def screen_transition_to_contract(self, *args):
+        pass
         agent = get_agent(args[0])
+        client = get_client(self.manager.get_screen("ContractScreen").client)
         kills = get_agent_contracts(args[0])
 
-        info = f"[color=03A062]Имя: {agent['first_name']} {agent['last_name']}\n" \
-                f"Возраст: {agent['age']}, статус: {int(agent['status'])}\n" \
-               f"Опыт: {agent['exp']}, деньги: {agent['money']}\n\n" \
-               f"Уровень снаряжения:\n" \
-               f"{info_dict[agent['equipment_level']]}\n\n" \
-               f"Контрактов: {len(kills)}\n\n" \
-               f"Начало членства: {datetime.datetime.fromtimestamp(agent['start_membership'])}[/color]"
+        info = f"[color=03A062]Агент: {agent['nickname']}\n" \
+               f"Имя: {agent['first_name']} {agent['last_name']}\n" \
+               f"Опыт: {agent['exp']}\n" \
+               f"Уровень снаряжения: {agent['equipment_level']}\n" \
+               f"Предшествующих контрактов: {len(kills)}\n\n" \
+               f"Клиент: {client['first_name']} {client['last_name']}\n" \
+               f"Опыт за убийство: {client['exp']}\n" \
+               f"Награда за убийство: {client['price']}\n" \
+               f"Уровень защиты: {client['security_level']}[/color]"
 
 
-        self.manager.get_screen("AgentScreen").nickname_label.text = f"[color=03A062]{agent['nickname']}[/color]"
-        self.manager.get_screen("AgentScreen").info_label.text = info
-        self.manager.current = "AgentScreen"
+        self.manager.get_screen("ContractScreen").info_label.text = info
+        self.manager.get_screen("ContractScreen").agent = args[0]
+        self.manager.current = "ContractScreen"
+
+
 

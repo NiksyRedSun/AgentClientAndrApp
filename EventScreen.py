@@ -14,10 +14,10 @@ from reqs import get_all_active_agents, get_all_clients, get_all_events
 import datetime
 
 
-
-class ClientScreen(Screen):
+class EventScreen(Screen):
     def __init__(self, **kwargs):
-        super(ClientScreen, self).__init__(**kwargs)
+        super(EventScreen, self).__init__(**kwargs)
+
 
         self.grid = GridLayout(cols=1)
 
@@ -26,31 +26,26 @@ class ClientScreen(Screen):
                    background_color=(3 / 255, 168 / 255, 98 / 255, 0.8), markup=True, background_normal="",
                    on_press=self.back))
 
-        self.name_label = Label(text="[color=03A062]Клиент[/color]", size_hint=(1, .2),
+        self.name_label = Label(text="[color=03A062]Событие[/color]", size_hint=(1, .2),
                                     max_lines=2,
                                     text_size=(Window.width * 0.3, Window.height * 0.35), halign="center", valign="top",
                                     font_size=28, markup=True, font_name="Lucida Console")
 
         self.grid.add_widget(self.name_label)
 
-        self.info_label = Label(text="[color=03A062]Здесь будет непосредственно информация[/color]", size_hint=(1, .2),
+        self.info_label = Label(text="[color=03A062]Здесь будет непосредственно информация по событию[/color]", size_hint=(1, .2),
                                 max_lines=2,
                                 text_size=(Window.width * 0.35, Window.height * 0.90), halign="left", valign="top",
                                 font_size=18, markup=True, font_name="Lucida Console")
 
         self.grid.add_widget(self.info_label)
 
-        self.grid.add_widget(
-            Button(text="[color=black]Контракт[/color]", size_hint=(1, .05), font_size=24, font_name="Lucida Console",
-                   background_color=(3 / 255, 168 / 255, 98 / 255, 0.8), markup=True, background_normal="",
-                   on_press=self.contract))
-
         self.add_widget(self.grid)
 
 
     def back(self, *args):
-        self.manager.current = "ClientsScreen"
+        self.manager.current = "EventsScreen"
 
 
-    def contract(self, *args):
-        self.manager.current = "ContractAgentsScreen"
+
+
