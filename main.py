@@ -23,6 +23,7 @@ from ContractScreen import ContractScreen
 from kivy.core.window import Window
 from ResultScreen import ResultScreen
 from EventScreen import EventScreen
+from StockScreen import StockScreen
 
 Window.size = (300, 585)
 
@@ -56,6 +57,7 @@ class Application(App):
         sm.add_widget(ContractAgentsScreen(name="ContractAgentsScreen"))
         sm.add_widget(ContractScreen(name="ContractScreen"))
         sm.add_widget(ResultScreen(name="ResultScreen"))
+        sm.add_widget(StockScreen(name="StockScreen"))
 
         return sm
 
