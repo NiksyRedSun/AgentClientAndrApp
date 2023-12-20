@@ -56,9 +56,23 @@ def get_event(id):
     return json.loads(r.text)
 
 
+
+def get_trash_event(id):
+
+    r = requests.request("GET", url=f"http://{site}/agents/trashevent/{id}")
+
+    return json.loads(r.text)
+
 def attempt(agent_id, client_id):
 
     r = requests.request("PUT", data=json.dumps({'agent': agent_id, 'client': client_id}), url=f"http://{site}/agents/attempt")
+
+    return json.loads(r.text)
+
+
+def trash_out_attempt(agent_id, target_id):
+
+    r = requests.request("PUT", data=json.dumps({'agent': agent_id, 'target': target_id}), url=f"http://{site}/agents/trashoutattempt")
 
     return json.loads(r.text)
 
@@ -72,6 +86,20 @@ def new_agent():
 def new_client():
 
     r = requests.request("PUT", url=f"http://{site}/agents/newclient")
+
+    return json.loads(r.text)
+
+
+def get_all_trash():
+
+    r = requests.request("GET", url=f"http://{site}/agents/getallex")
+
+    return json.loads(r.text)
+
+
+def get_uncover_event(agent_id):
+
+    r = requests.request("GET", data=json.dumps({'agent': agent_id}), url=f"http://{site}/agents/getuncoverev")
 
     return json.loads(r.text)
 

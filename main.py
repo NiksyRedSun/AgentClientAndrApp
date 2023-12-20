@@ -1,29 +1,13 @@
 from kivy.app import App
 from kivy.core.text import LabelBase
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.config import Config
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import ScreenManager, SlideTransition
+
 from kivy.core.window import Window
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition, WipeTransition, SwapTransition, CardTransition, SlideTransition, ShaderTransition
-from reqs import get_all_active_agents, get_all_clients, get_all_events
-import datetime
-from MenuScreen import MenuScreen
-from AgentsScreen import AgentsScreen
-from AgentScreen import AgentScreen
-from ClientScreen import ClientScreen
-from ClientsScreen import ClientsScreen
-from EventsScreen import EventsScreen
-from ContractAgentsScreen import ContractAgentsScreen
-from ContractScreen import ContractScreen
-from kivy.core.window import Window
-from ResultScreen import ResultScreen
-from EventScreen import EventScreen
-from StockScreen import StockScreen
+import AgentScreens
+import TrashScreens
+import ClientScreens
+import OtherScreens
+import EventScreens
 
 Window.size = (300, 585)
 
@@ -47,17 +31,22 @@ class Application(App):
         self.config.height=300
         sm = ScreenManagement(transition=SlideTransition())
 
-        sm.add_widget(MenuScreen(name="MenuScreen"))
-        sm.add_widget(AgentsScreen(name="AgentsScreen"))
-        sm.add_widget(AgentScreen(name="AgentScreen"))
-        sm.add_widget(ClientsScreen(name="ClientsScreen"))
-        sm.add_widget(ClientScreen(name="ClientScreen"))
-        sm.add_widget(EventsScreen(name="EventsScreen"))
-        sm.add_widget(EventScreen(name="EventScreen"))
-        sm.add_widget(ContractAgentsScreen(name="ContractAgentsScreen"))
-        sm.add_widget(ContractScreen(name="ContractScreen"))
-        sm.add_widget(ResultScreen(name="ResultScreen"))
-        sm.add_widget(StockScreen(name="StockScreen"))
+        sm.add_widget(OtherScreens.MenuScreen.MenuScreen(name="MenuScreen"))
+        sm.add_widget(AgentScreens.AgentsScreen.AgentsScreen(name="AgentsScreen"))
+        sm.add_widget(AgentScreens.AgentScreen.AgentScreen(name="AgentScreen"))
+        sm.add_widget(ClientScreens.ClientsScreen.ClientsScreen(name="ClientsScreen"))
+        sm.add_widget(ClientScreens.ClientScreen.ClientScreen(name="ClientScreen"))
+        sm.add_widget(EventScreens.EventsScreen.EventsScreen(name="EventsScreen"))
+        sm.add_widget(EventScreens.EventScreen.EventScreen(name="EventScreen"))
+        sm.add_widget(ClientScreens.ContractAgentsScreen.ContractAgentsScreen(name="ContractAgentsScreen"))
+        sm.add_widget(ClientScreens.ContractScreen.ContractScreen(name="ContractScreen"))
+        sm.add_widget(ClientScreens.ResultScreen.ResultScreen(name="ResultScreen"))
+        sm.add_widget(OtherScreens.StockScreen.StockScreen(name="StockScreen"))
+        sm.add_widget(TrashScreens.TrashScreen.TrashScreen(name="TrashScreen"))
+        sm.add_widget(TrashScreens.TrashCleaningScreen.TrashCleaningScreen(name="TrashCleaningScreen"))
+        sm.add_widget(TrashScreens.TrashCleanerScreen.TrashCleanerScreen(name="TrashCleanerScreen"))
+        sm.add_widget(TrashScreens.TrashContractScreen.TrashContractScreen(name="TrashContractScreen"))
+        sm.add_widget(TrashScreens.TrashResultScreen.TrashResultScreen(name="TrashResultScreen"))
 
         return sm
 
